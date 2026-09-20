@@ -247,3 +247,36 @@ documentationOpeners.forEach((opener) => opener.addEventListener('click', openDo
 documentationClose?.addEventListener('click', closeDocumentation);
 documentationModal?.addEventListener('click', (event) => { if (event.target === documentationModal) closeDocumentation(); });
 document.addEventListener('keydown', (event) => { if (event.key === 'Escape') closeDocumentation(); });
+
+// Visitor comments for the static site: persist locally and render instantly without a backend.
+const commentForm = $('#comment-form');
+const reviewList = $('#review-list');
+const commentStatus = $('#comment-status');
+const reviewStorageKey = 'mobility-x-visitor-signals';
+const escapeReviewText = (value) => String(value).replace(/[&<>'"]/g, (character) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[character]));
+const renderVisitorComment = ({ name, rating, comment }) => {
+  if (!reviewList) return;
+  const card = document.createElement('article');
+  card.className = 'review-card reveal is-visible';
+  const safeName = escapeReviewText(name);
+  const safeComment = escapeReviewText(comment);
+  const stars = '★'.repeat(Number(rating)) + '☆'.repeat(5 - Number(rating));
+  card.innerHTML = `<div class="review-stars">${stars}</div><p>“${safeComment}”</p><footer><strong>${safeName}</strong><span>Visitor signal</span></footer>`;
+  reviewList.append(card);
+};
+try {
+  JSON.parse(localStorage.getItem(reviewStorageKey) || '[]').forEach(renderVisitorComment);
+} catch (_) { /* Private browsing can disable localStorage; the form still remains usable. */ }
+commentForm?.addEventListener('submit', (event) => {
+  event.preventDefault();
+  const data = Object.fromEntries(new FormData(commentForm).entries());
+  const payload = { name: data.name.trim(), rating: Number(data.rating), comment: data.comment.trim() };
+  if (!payload.name || !payload.comment) return;
+  renderVisitorComment(payload);
+  try {
+    const saved = JSON.parse(localStorage.getItem(reviewStorageKey) || '[]');
+    localStorage.setItem(reviewStorageKey, JSON.stringify([...saved, payload].slice(-12)));
+  } catch (_) { /* Keep the interaction functional when storage is unavailable. */ }
+  commentForm.reset();
+  if (commentStatus) commentStatus.textContent = 'Your signal is now part of this browser’s visitor wall.';
+});
