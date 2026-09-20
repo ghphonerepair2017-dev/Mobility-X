@@ -109,8 +109,11 @@ let gameStartedAt = 0;
 let targets = [];
 
 const openGameModal = () => {
-  modal?.classList.add('is-open');
-  modal?.setAttribute('aria-hidden', 'false');
+  // Space Guardian is hosted on its own GitHub Pages site. Never lock the
+  // Mobility X document when the external anchor is activated.
+  if (!modal) return;
+  modal.classList.add('is-open');
+  modal.setAttribute('aria-hidden', 'false');
   document.body.style.overflow = 'hidden';
   closeGame?.focus();
 };
@@ -226,6 +229,15 @@ canvas?.addEventListener('pointerdown', hitTest);
 window.addEventListener('resize', fitCanvas);
 fitCanvas();
 resetGame();
+
+
+// Defensive recovery for browser back/forward navigation and bfcache restores.
+const restorePageScroll = () => {
+  if (!modal?.classList.contains('is-open')) document.body.style.overflow = '';
+  document.body.classList.remove('modal-open');
+};
+window.addEventListener('pageshow', restorePageScroll);
+window.addEventListener('pagehide', restorePageScroll);
 
 // Archive reader: the Drive PDF stays inside the site while remaining available in a new tab.
 const documentationModal = $('#documentation-modal');
