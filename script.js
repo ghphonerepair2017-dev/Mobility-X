@@ -233,11 +233,26 @@ resetGame();
 
 // Defensive recovery for browser back/forward navigation and bfcache restores.
 const restorePageScroll = () => {
-  if (!modal?.classList.contains('is-open')) document.body.style.overflow = '';
+  if (modal?.classList.contains('is-open')) return;
+  // Clear every common scroll-lock surface, including bfcache-restored inline styles.
+  document.documentElement.style.removeProperty('overflow');
+  document.documentElement.style.removeProperty('position');
+  document.documentElement.style.removeProperty('touch-action');
+  document.body.style.removeProperty('overflow');
+  document.body.style.removeProperty('position');
+  document.body.style.removeProperty('height');
+  document.body.style.removeProperty('touch-action');
   document.body.classList.remove('modal-open');
 };
+const prepareExternalGameNavigation = () => {
+  restorePageScroll();
+  // This link opens the independent GitHub Pages game; the landing page must remain scrollable.
+  window.setTimeout(restorePageScroll, 0);
+};
+openGame?.addEventListener('click', prepareExternalGameNavigation, { capture: true });
 window.addEventListener('pageshow', restorePageScroll);
 window.addEventListener('pagehide', restorePageScroll);
+window.addEventListener('popstate', restorePageScroll);
 
 // Archive reader: the Drive PDF stays inside the site while remaining available in a new tab.
 const documentationModal = $('#documentation-modal');
