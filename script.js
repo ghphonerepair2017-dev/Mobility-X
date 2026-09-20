@@ -280,3 +280,28 @@ commentForm?.addEventListener('submit', (event) => {
   commentForm.reset();
   if (commentStatus) commentStatus.textContent = 'Your signal is now part of this browser’s visitor wall.';
 });
+
+// Intro gate + soundtrack: autoplay is requested, then the Enter gesture unlocks sound where browsers require it.
+const introScreen = $('#intro-screen');
+const enterSite = $('#enter-site');
+const attemptSound = async () => {
+  if (!audio) return false;
+  audio.volume = 0.72;
+  try {
+    await audio.play();
+    musicToggle?.classList.add('is-playing');
+    musicToggle?.setAttribute('aria-pressed', 'true');
+    if (musicLabel) musicLabel.textContent = 'Sound on';
+    return true;
+  } catch (_) {
+    if (musicLabel) musicLabel.textContent = 'Tap for sound';
+    return false;
+  }
+};
+window.addEventListener('load', () => { attemptSound(); });
+enterSite?.addEventListener('click', async () => {
+  await attemptSound();
+  document.body.classList.remove('intro-active');
+  introScreen?.classList.add('is-dismissed');
+  window.setTimeout(() => introScreen?.remove(), 950);
+});

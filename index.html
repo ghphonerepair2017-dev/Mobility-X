@@ -11,12 +11,13 @@
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
 </head>
-<body>
+<body class="intro-active">
+  <section id="intro-screen" class="intro-screen" aria-label="Mobility X introduction"><div class="intro-aura"></div><div class="intro-content"><div class="intro-kicker">MOBILITY X / INITIATING</div><div class="intro-logo-wrap"><span class="intro-ring intro-ring-a"></span><span class="intro-ring intro-ring-b"></span><img class="intro-logo" src="assets/brand/mobilityx-logo.png" alt="Mobility X logo" /><span class="intro-spark intro-spark-a"></span><span class="intro-spark intro-spark-b"></span></div><h1>Enter the<br /><em>next mobile era.</em></h1><p>Human signal detected. The future is ready.</p><button id="enter-site" class="button button-primary intro-enter" type="button">Enter experience <span>↗</span></button><span class="intro-sound-note"><span class="music-dot"></span> Sound on by default</span></div><div class="intro-meta"><span>MX / 01</span><span>BUILD 2026.09</span><span>100 YEAR HORIZON</span></div></section>
   <canvas id="ambient-canvas" aria-hidden="true"></canvas><div class="noise" aria-hidden="true"></div><div class="scroll-progress" aria-hidden="true"><span></span></div>
   <header class="site-header">
     <a class="brand" href="#top" aria-label="Mobility X home"><span class="logo-energy" aria-hidden="true"><span class="logo-ring logo-ring-a"></span><span class="logo-ring logo-ring-b"></span><img class="brand-logo" src="assets/brand/mobilityx-logo.png" alt="Mobility X logo" /></span><span class="brand-name">mobilityX</span></a>
     <nav class="nav" aria-label="Primary navigation"><a href="#vision">Vision</a><a href="#systems">Systems</a><a href="#gallery">Gallery</a><a href="#motion">Motion lab</a><a href="#site-map">Map</a><a href="#reviews">Reviews</a><a href="#contact">Contact</a></nav>
-    <div class="header-actions"><button class="music-toggle" type="button" aria-pressed="false"><span class="music-dot"></span><span class="music-label">Sound off</span></button><button id="open-documentation" class="button button-ghost button-small" type="button">Archive <span>↗</span></button></div>
+    <div class="header-actions"><button class="music-toggle" type="button" aria-pressed="true"><span class="music-dot"></span><span class="music-label">Sound on</span></button><button id="open-documentation" class="button button-ghost button-small" type="button">Archive <span>↗</span></button></div>
     <button class="menu-toggle" type="button" aria-label="Open navigation" aria-expanded="false"><span></span><span></span></button>
   </header>
 
@@ -46,6 +47,6 @@
 
   <footer class="site-footer"><div><span class="logo-energy logo-energy-footer" aria-hidden="true"><span class="logo-ring logo-ring-a"></span><span class="logo-ring logo-ring-b"></span><img class="footer-logo" src="assets/brand/mobilityx-logo.png" alt="Mobility X" /></span><span class="footer-name">mobilityX</span></div><span>© 2026 / Mind over Network</span><a href="#top">Back to top ↑</a></footer>
   <dialog id="documentation-modal" class="documentation-modal"><div class="documentation-dialog"><div class="documentation-header"><div><span class="kicker">MX / SOURCE DOCUMENT</span><h2>DOCUMENTATION</h2></div><button id="close-documentation" class="close-documentation" type="button" aria-label="Close documentation">×</button></div><div class="documentation-frame"><iframe title="Mobility X Documentation" src="https://drive.google.com/file/d/1Al2SzHcyZowE5D4iiclSEuvzZu2BpwIU/preview" allow="autoplay"></iframe></div><div class="documentation-footer"><span>Drive PDF / embedded reader</span><a href="https://drive.google.com/file/d/1Al2SzHcyZowE5D4iiclSEuvzZu2BpwIU/view" target="_blank" rel="noreferrer">Open in Drive ↗</a></div></div></dialog>
-  <audio id="site-audio" loop preload="metadata"><source src="assets/website-music.mp3" type="audio/mpeg" /></audio><script src="script.js"></script>
+  <audio id="site-audio" autoplay loop preload="auto"><source src="assets/website-music.mp3" type="audio/mpeg" /></audio><script src="script.js"></script>
 </body>
 </html>
