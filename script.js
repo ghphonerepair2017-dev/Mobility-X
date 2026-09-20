@@ -226,3 +226,24 @@ canvas?.addEventListener('pointerdown', hitTest);
 window.addEventListener('resize', fitCanvas);
 fitCanvas();
 resetGame();
+
+// Archive reader: the Drive PDF stays inside the site while remaining available in a new tab.
+const documentationModal = $('#documentation-modal');
+const documentationOpeners = ['#open-documentation', '#open-documentation-map', '#open-documentation-cta'].flatMap((selector) => $$(selector));
+const documentationClose = $('#close-documentation');
+const openDocumentation = () => {
+  if (!documentationModal) return;
+  if (typeof documentationModal.showModal === 'function') documentationModal.showModal();
+  else documentationModal.setAttribute('open', '');
+  document.body.classList.add('modal-open');
+};
+const closeDocumentation = () => {
+  if (!documentationModal) return;
+  if (typeof documentationModal.close === 'function') documentationModal.close();
+  else documentationModal.removeAttribute('open');
+  document.body.classList.remove('modal-open');
+};
+documentationOpeners.forEach((opener) => opener.addEventListener('click', openDocumentation));
+documentationClose?.addEventListener('click', closeDocumentation);
+documentationModal?.addEventListener('click', (event) => { if (event.target === documentationModal) closeDocumentation(); });
+document.addEventListener('keydown', (event) => { if (event.key === 'Escape') closeDocumentation(); });
